@@ -1,5 +1,5 @@
 const path = require('path');
-const {readFileSync, read, writeFileSync} = require('fs');
+const {readFileSync, read, writeFileSync, rename} = require('fs');
  
 // home page controller
 const showHomePage = (req, res) => {
@@ -30,11 +30,10 @@ const showSingleBlogPage = (req, res) => {
 // shop page controller
 const showShopPage = (req, res) => {
 
-    const all_product = JSON.parse(readFileSync(path.join(__dirname, '../db/shopProduct.json')));
+    const all_product = JSON.parse(readFileSync(path.join(__dirname, '../db/product.json')));
     
     res.render('shop-3col', {
-        all_product,
-        option_product : ''
+        all_product
     });
 
 }
@@ -42,7 +41,7 @@ const showShopPage = (req, res) => {
 // shop single page controller
 const shopSinglePage = (req, res) => {
 
-    const product = JSON.parse(readFileSync(path.join(__dirname, '../db/shopProduct.json')));
+    const product = JSON.parse(readFileSync(path.join(__dirname, '../db/product.json')));
 
     const singel_product = product.find(data => data.id == req.params.id);
     
@@ -51,35 +50,9 @@ const shopSinglePage = (req, res) => {
     });
 }
 
-// show tag controllers
-const showtags = (req, res) => {
-
-    const all_product = JSON.parse(readFileSync(path.join(__dirname, '../db/shopProduct.json')));
-
-    const { tag } = req.params
- 
-    const option_product = all_product.filter(data => data.tag == tag);
-
-    res.render('shop-3col', {
-        all_product,
-        option_product
-    });
-
-} 
-
-// show category controllers
-const showcate = (req, res) => {
-    const all_product = JSON.parse(readFileSync(path.join(__dirname, '../db/shopProduct.json')));
-
-    const { cate } = req.params
-
-    const option_product = all_product.filter(data => data.cate == cate);
-
-    res.render('shop-3col', {
-        all_product,
-        option_product
-    });
-
+// Admin page controllers
+const showAdminPage = (req, res) => {
+    res.render('admin');
 }
 
 
@@ -89,6 +62,5 @@ module.exports = {
     showShopPage,
     showSingleBlogPage,
     shopSinglePage,
-    showtags,
-    showcate
+    showAdminPage
 }
